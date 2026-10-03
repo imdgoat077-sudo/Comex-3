@@ -54,7 +54,7 @@ def make_search_memory_tool(graph_store, agent_id: str, step_ref: dict, seen_exc
 
 def make_save_artifact_tool(graph_store, agent_id: str, step_ref: dict):
     @langchain_tool
-    def save_artifact(content: str, title: str = "Untitled Artifact", artifact_type: str = "notes") -> str:
+    def save_artifact(title: str, artifact_type: str, content: str) -> str:
         """Save a completed result or durable unstructured knowledge as an Artifact.
         Use this tool to persist final reports, collected lists, research summaries,
         or exact sets of questions.

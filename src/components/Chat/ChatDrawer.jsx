@@ -3,7 +3,7 @@ import {
   Sparkles, X, Send, Bot, User, Trash2, Copy, Check,
   ChevronRight, ChevronDown,
   Globe, Play, Layers, Activity, Crown, Compass, Search, ShieldCheck, Terminal,
-  Brain, Cpu, BookOpen, Lightbulb, RefreshCw, Plus, Eye
+  Brain, Cpu, BookOpen, Lightbulb, RefreshCw, Plus, Eye, Zap
 } from 'lucide-react';
 import MarkdownRenderer from './MarkdownRenderer';
 import { runMultiAgentSwarm } from '../../agents/OrchestratorAgent';
@@ -64,10 +64,11 @@ export default function ChatDrawer({
   const [activeSingleAgentMessageId, setActiveSingleAgentMessageId] = useState(null);
   const [copiedId, setCopiedId] = useState(null);
   const [activeDrawerTab, setActiveDrawerTab] = useState('chat'); // 'chat' | 'brain'
-  const [brainSection, setBrainSection] = useState('user_memory'); // 'user_memory' | 'skills' | 'reflections'
+  const [brainSection, setBrainSection] = useState('user_memory'); // 'user_memory' | 'skills' | 'reflections' | 'adapters'
   const [userMemories, setUserMemories] = useState([]);
   const [skills, setSkills] = useState([]);
   const [reflections, setReflections] = useState([]);
+  const [adapters, setAdapters] = useState([]);
   const [memoryStats, setMemoryStats] = useState(null);
   const [newKey, setNewKey] = useState('');
   const [newValue, setNewValue] = useState('');
@@ -80,16 +81,18 @@ export default function ChatDrawer({
   const fetchBrainData = async () => {
     setIsRefreshingBrain(true);
     try {
-      const [ovRes, memRes, sklRes, refRes] = await Promise.all([
+      const [ovRes, memRes, sklRes, refRes, adpRes] = await Promise.all([
         fetch('http://127.0.0.1:8000/agent/memory/overview').then(r => r.ok ? r.json() : null),
         fetch('http://127.0.0.1:8000/agent/user/memory').then(r => r.ok ? r.json() : []),
         fetch('http://127.0.0.1:8000/agent/skills?limit=30').then(r => r.ok ? r.json() : []),
-        fetch('http://127.0.0.1:8000/agent/reflections?limit=20').then(r => r.ok ? r.json() : [])
+        fetch('http://127.0.0.1:8000/agent/reflections?limit=20').then(r => r.ok ? r.json() : []),
+        fetch('http://127.0.0.1:8000/agent/adapters').then(r => r.ok ? r.json() : [])
       ]);
       if (ovRes) setMemoryStats(ovRes.stats);
       if (Array.isArray(memRes)) setUserMemories(memRes);
       if (Array.isArray(sklRes)) setSkills(sklRes);
       if (Array.isArray(refRes)) setReflections(refRes);
+      if (Array.isArray(adpRes)) setAdapters(adpRes);
     } catch (e) {
       console.warn('Could not fetch brain data:', e);
     } finally {
@@ -118,6 +121,15 @@ export default function ChatDrawer({
       setSkills(prev => prev.filter(s => s.id !== id));
     } catch (e) {
       console.warn('Failed to delete skill:', e);
+    }
+  };
+
+  const handleDeleteAdapter = async (id) => {
+    try {
+      await fetch(`http://127.0.0.1:8000/agent/adapters/${encodeURIComponent(id)}`, { method: 'DELETE' });
+      setAdapters(prev => prev.filter(a => a.id !== id));
+    } catch (e) {
+      console.warn('Failed to delete adapter:', e);
     }
   };
 
@@ -256,6 +268,23 @@ export default function ChatDrawer({
             const dataStr = line.replace(/^data:\s*/, '');
             try {
               const data = JSON.parse(dataStr);
+
+              // Synchronously update outcome outside React's batched state updater
+              if (currentEventType === 'done' || currentEventType === 'completed' || data.type === 'result' || data.type === 'chat' || data.done) {
+                const isConv = Boolean(data.is_conversational || data.type === 'chat');
+                const rawContent = data.content || data.text || data.result;
+                const finalContent = rawContent || outcome.content || outcome.text || (isConv ? 'Hello! How can I assist you today?' : 'Task completed.');
+                outcome = {
+                  status: data.stopped ? 'stopped' : data.success !== false ? 'completed' : 'failed',
+                  text: finalContent,
+                  content: finalContent,
+                  durationMs: data.durationMs || outcome.durationMs,
+                  is_conversational: isConv,
+                  fast_path: Boolean(data.fast_path || outcome.fast_path),
+                  adapter_name: data.adapter_name || outcome.adapter_name
+                };
+              }
+
               setMessages((prev) => prev.map((msg) => {
                 if (msg.id !== messageId) return msg;
 
@@ -322,22 +351,17 @@ export default function ChatDrawer({
                   };
                 }
 
-                if (currentEventType === 'done' || data.type === 'result' || data.type === 'chat' || data.done) {
-                  const finalContent = data.content || data.text || data.result || outcome.content || outcome.text || (data.is_conversational ? 'Hello! How can I assist you today?' : 'Task completed.');
-                  const isConv = Boolean(data.is_conversational || (curActivity.length === 0 && data.type === 'chat'));
-                  outcome = {
-                    status: data.stopped ? 'stopped' : data.success !== false ? 'completed' : 'failed',
-                    text: finalContent,
-                    content: finalContent,
-                    durationMs: data.durationMs,
-                    is_conversational: isConv
-                  };
+                if (currentEventType === 'done' || currentEventType === 'completed' || data.type === 'result' || data.type === 'chat' || data.done) {
+                  const finalContent = outcome.content || outcome.text;
+                  const isConv = outcome.is_conversational;
                   return {
                     ...msg,
                     text: finalContent,
                     content: finalContent,
-                    status: 'completed',
+                    status: outcome.status,
                     is_conversational: isConv,
+                    fast_path: outcome.fast_path,
+                    adapter_name: outcome.adapter_name,
                     isStreaming: false
                   };
                 }
@@ -457,15 +481,19 @@ export default function ChatDrawer({
         const cleanText = terminalStatus === 'stopped'
           ? 'The task was stopped by the user.'
           : (outcome.content || outcome.text || (isConv ? 'Hello! How can I assist you today?' : 'Task completed.')).replace(/^### (Agent Error|Connection Error|Browser-Use Result)\s*/, '');
+        const isFastPath = Boolean(outcome.fast_path);
+        const fastPathBadge = isFastPath ? `⚡ Fast Path (${outcome.adapter_name || 'Adapter'})` : '';
         setMessages((prev) => prev.map((message) => message.id === messageId ? {
           ...message,
           text: cleanText,
           content: cleanText,
           status: terminalStatus,
-          statusLabel: terminalStatus === 'stopped' ? 'Task stopped' : terminalStatus === 'failed' ? 'Task failed' : (isConv ? '' : 'Task completed'),
+          statusLabel: terminalStatus === 'stopped' ? 'Task stopped' : terminalStatus === 'failed' ? 'Task failed' : (isFastPath ? fastPathBadge : (isConv ? '' : 'Task completed')),
           activity: message.activity || [],
           durationMs: outcome.durationMs,
           is_conversational: isConv,
+          fast_path: isFastPath,
+          adapter_name: outcome.adapter_name,
           completed: true,
           isStreaming: false,
         } : message));
@@ -823,6 +851,13 @@ export default function ChatDrawer({
               <span>User Facts ({userMemories.length})</span>
             </button>
             <button
+              className={`brain-tab-btn ${brainSection === 'adapters' ? 'active' : ''}`}
+              onClick={() => setBrainSection('adapters')}
+            >
+              <Zap size={13} />
+              <span>Fast Adapters ({adapters.length})</span>
+            </button>
+            <button
               className={`brain-tab-btn ${brainSection === 'skills' ? 'active' : ''}`}
               onClick={() => setBrainSection('skills')}
             >
@@ -979,6 +1014,47 @@ export default function ChatDrawer({
                             <p>{r.lesson_learned}</p>
                           </div>
                         )}
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* 4. Fast Adapters */}
+            {brainSection === 'adapters' && (
+              <div className="brain-skills-panel">
+                <div className="brain-items-list">
+                  {adapters.length === 0 ? (
+                    <div className="brain-empty">
+                      No compiled site adapters yet. When you complete routine actions, Comex automatically distills them into sub-second Fast-Path adapters.
+                    </div>
+                  ) : (
+                    adapters.map(a => (
+                      <div key={a.id} className="brain-card skill-card">
+                        <div className="card-header">
+                          <span className={`card-badge ${a.status === 'active' ? 'skill-badge' : 'warn'}`}>
+                            {a.domain} ({a.status})
+                          </span>
+                          <span className="card-key">{a.name}</span>
+                          <button
+                            className="card-del-btn"
+                            onClick={() => handleDeleteAdapter(a.id)}
+                            title="Delete Adapter"
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        </div>
+                        <p className="skill-desc"><strong>Intent:</strong> {a.action_intent}</p>
+                        {a.code_template && (
+                          <pre className="skill-code">
+                            <code>{a.code_template}</code>
+                          </pre>
+                        )}
+                        <div className="skill-metrics">
+                          <span>⚡ Successes: {a.success_count || 0}</span>
+                          <span>Failures: {a.failure_count || 0}</span>
+                        </div>
                       </div>
                     ))
                   )}

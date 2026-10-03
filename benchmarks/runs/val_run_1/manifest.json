@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "replicated_run_1789885522",
+  "arm": "C",
+  "repetitions": 1,
+  "start_time": "2026-09-20T06:25:23Z",
+  "end_time": "2026-09-20T06:30:03Z",
+  "elapsed_seconds": 280.56,
+  "environment": {
+    "git_commit": "ea825e457d059f3c4b6c60de7bcf75af8eb0868b",
+    "git_branch": "main",
+    "git_dirty": true,
+    "os_platform": "macOS-26.3.1-arm64-arm-64bit",
+    "os_arch": "arm64",
+    "python_version": "3.12.12",
+    "node_version": "v24.12.0",
+    "electron_version": "v43.4.0",
+    "cdp_port": 9222,
+    "fixture_port": 8890
+  },
+  "configuration": {
+    "delegate_jev": true,
+    "shadow_jev": true,
+    "model_system2": "ag/gemini-3.7-flash-medium",
+    "model_system1": "ag/jev-system1",
+    "proxy_url": "http://localhost:20128/v1",
+    "calibration_thresholds": {
+      "CLICK": {
+        "confidence": 0.7,
+        "margin": 0.05,
+        "actionable": true
+      },
+      "FILL": {
+        "confidence": 0.75,
+        "margin": 0.1,
+        "actionable": true
+      },
+      "SELECT": {
+        "confidence": 0.7,
+        "margin": 0.05,
+        "actionable": false,
+        "shadow_only": true
+      }
+    },
+    "task_order": [
+      "T01",
+      "T02",
+      "T03",
+      "T04",
+      "T05",
+      "T06",
+      "T07",
+      "T08",
+      "T09",
+      "T10",
+      "T11",
+      "T12",
+      "T13",
+      "T14",
+      "T15"
+    ],
+    "task_count": 15
+  },
+  "metrics_summary": {
+    "total_tasks_run": 15,
+    "tasks_passed": 13,
+    "tasks_failed": 2,
+    "task_success_rate_pct": 86.67,
+    "mean_task_duration_s": 18.37,
+    "median_task_duration_s": 8.74,
+    "p90_task_duration_s": 39.29,
+    "p95_task_duration_s": 47.62,
+    "action_metrics": {
+      "total_browser_actions": 42,
+      "jev_attempted_actions": 23,
+      "jev_resolved_actions": 11,
+      "jev_abstained_actions": 12,
+      "jev_routed_actions": 9,
+      "jev_shadow_only_resolutions": 2,
+      "jev_executed_actions": 9,
+      "gemini_executed_actions": 29,
+      "dispatch_attempted_actions": 38,
+      "dispatch_sent_actions": 35,
+      "dispatch_success_actions": 35,
+      "successful_physical_actions": 35,
+      "comex_total_blocks": 7,
+      "comex_physical_safety_blocks": 3,
+      "comex_loop_prevention_blocks": 4,
+      "comex_block_breakdown": {
+        "REPEATED_ACTION_BLOCK": 4,
+        "TARGET_DISABLED": 3
+      },
+      "delegated_decisions_count": 9,
+      "jev_decision_correctness_count": 9,
+      "successfully_dispatched_jev_actions": 7,
+      "correct_delegated_count": 9,
+      "wrong_target_count": 0,
+      "observed_precision_pct": 100.0,
+      "precision_wilson_95_ci": [
+        0.7009,
+        1.0
+      ],
+      "action_execution_coverage_pct": 39.13,
+      "action_level_jev_coverage_pct": 26.19
+    },
+    "turn_metrics": {
+      "total_gemini_turns": 23,
+      "jev_adjudicated_turns": 23,
+      "jev_delegated_turns": 9,
+      "jev_abstained_turns": 12,
+      "gemini_fallback_turns": 14,
+      "turn_delegation_rate_pct": 39.13,
+      "turn_disposition_coverage_pct": 91.3
+    },
+    "latency_metrics": {
+      "total_model_latency_avoided_s": 60.16,
+      "total_estimated_model_latency_avoided_s": 60.16,
+      "mean_jev_latency_ms": 1149.3,
+      "mean_gemini_latency_ms": 7100.31,
+      "action_wall_latency_p90_ms": 8.2,
+      "action_wall_latency_p95_ms": 9.46,
+      "sample_count_jev": 22,
+      "sample_count_gemini": 23
+    }
+  },
+  "artifacts": {
+    "results_jsonl": "results.jsonl",
+    "action_ledger_jsonl": "action_ledger.jsonl",
+    "report_md": "report.md"
+  }
+}

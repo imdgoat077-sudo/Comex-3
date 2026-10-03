@@ -1,0 +1,479 @@
+[
+  {
+    "run_idx": 1,
+    "task_id": "maps-val-run-1-1789934388",
+    "wall_clock_time": 78.25737690925598,
+    "completed_event_data": null,
+    "server_timing": {
+      "task": "Open Google Maps and perform fresh research only. Do not use conversation memory or previously stored results.\n\nFind the best way to travel from VIT Chennai to Phoenix Marketcity Chennai using MTC buses only.\n\nRequirements:\n- Use only MTC/public buses as the main transport.\n- No cab, auto, metro, or train.\n- Prefer fewer transfers and shorter total travel time.\n\nUse Google Maps transit directions to determine the route.\n\nFind and report:\n1. Starting bus stop near VIT Chennai\n2. Bus number(s)\n3. Transfer stop(s), if any\n4. Final bus stop near Phoenix Marketcity\n5. Walking distance at the start and end\n6. Approximate total travel time\n7. Approximate waiting/transfer time\n8. Approximate fare if available\n9. Useful operating times if available\n\nThen use Google Maps to find 5 highly rated restaurants inside or near Phoenix Marketcity.\n\nRequirements:\n- Rating \u2265 4.2\n- At least 500 reviews\n\nFor each restaurant report:\n- Name\n- Rating\n- Review count\n- Cuisine\n- Approximate distance from Phoenix Marketcity\n\nFinally give me:\n- The simplest MTC route\n- A faster alternative, if one exists\n- The 5 restaurant options\n\nDo not book or purchase anything.",
+      "duration_seconds": 78.22,
+      "timing_summary": {
+        "total_gemini_duration_s": 54.673693542019464,
+        "total_tool_duration_s": 23.293759212014265,
+        "steps": [
+          {
+            "step": 1,
+            "llm_duration_s": 5.15,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 3.79,
+            "success": true
+          },
+          {
+            "step": 2,
+            "llm_duration_s": 3.56,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.09,
+            "success": true
+          },
+          {
+            "step": 3,
+            "llm_duration_s": 1.96,
+            "tool": "execute_browser_action",
+            "tool_duration_s": 0.49,
+            "success": true
+          },
+          {
+            "step": 4,
+            "llm_duration_s": 2.25,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 3.12,
+            "success": true
+          },
+          {
+            "step": 5,
+            "llm_duration_s": 2.72,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.1,
+            "success": true
+          },
+          {
+            "step": 6,
+            "llm_duration_s": 3.25,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.09,
+            "success": true
+          },
+          {
+            "step": 7,
+            "llm_duration_s": 1.94,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.09,
+            "success": true
+          },
+          {
+            "step": 8,
+            "llm_duration_s": 1.97,
+            "tool": "execute_browser_action",
+            "tool_duration_s": 0.55,
+            "success": true
+          },
+          {
+            "step": 9,
+            "llm_duration_s": 1.92,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 2.13,
+            "success": true
+          },
+          {
+            "step": 10,
+            "llm_duration_s": 1.89,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.1,
+            "success": true
+          },
+          {
+            "step": 11,
+            "llm_duration_s": 1.64,
+            "tool": "execute_browser_action",
+            "tool_duration_s": 0.52,
+            "success": true
+          },
+          {
+            "step": 12,
+            "llm_duration_s": 2.35,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 1.12,
+            "success": true
+          },
+          {
+            "step": 13,
+            "llm_duration_s": 1.76,
+            "tool": "execute_browser_action",
+            "tool_duration_s": 0.52,
+            "success": true
+          },
+          {
+            "step": 14,
+            "llm_duration_s": 2.1,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 2.13,
+            "success": true
+          },
+          {
+            "step": 15,
+            "llm_duration_s": 1.95,
+            "tool": "execute_browser_action",
+            "tool_duration_s": 0.49,
+            "success": true
+          },
+          {
+            "step": 16,
+            "llm_duration_s": 1.99,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 2.13,
+            "success": true
+          },
+          {
+            "step": 17,
+            "llm_duration_s": 2.39,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 3.63,
+            "success": true
+          },
+          {
+            "step": 18,
+            "llm_duration_s": 2.61,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.08,
+            "success": true
+          },
+          {
+            "step": 19,
+            "llm_duration_s": 2.78,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 2.11,
+            "success": true
+          }
+        ]
+      },
+      "formatted_table": "\n=== AGENT EXECUTION TIMING BREAKDOWN ===\n  Step 1: Gemini 5.15s | Tool 'run_browser_harness' 3.79s | Success=True\n  Step 2: Gemini 3.56s | Tool 'run_browser_harness' 0.09s | Success=True\n  Step 3: Gemini 1.96s | Tool 'execute_browser_action' 0.49s | Success=True\n  Step 4: Gemini 2.25s | Tool 'run_browser_harness' 3.12s | Success=True\n  Step 5: Gemini 2.72s | Tool 'run_browser_harness' 0.10s | Success=True\n  Step 6: Gemini 3.25s | Tool 'run_browser_harness' 0.09s | Success=True\n  Step 7: Gemini 1.94s | Tool 'run_browser_harness' 0.09s | Success=True\n  Step 8: Gemini 1.97s | Tool 'execute_browser_action' 0.55s | Success=True\n  Step 9: Gemini 1.92s | Tool 'run_browser_harness' 2.13s | Success=True\n  Step 10: Gemini 1.89s | Tool 'run_browser_harness' 0.10s | Success=True\n  Step 11: Gemini 1.64s | Tool 'execute_browser_action' 0.52s | Success=True\n  Step 12: Gemini 2.35s | Tool 'run_browser_harness' 1.12s | Success=True\n  Step 13: Gemini 1.76s | Tool 'execute_browser_action' 0.52s | Success=True\n  Step 14: Gemini 2.10s | Tool 'run_browser_harness' 2.13s | Success=True\n  Step 15: Gemini 1.95s | Tool 'execute_browser_action' 0.49s | Success=True\n  Step 16: Gemini 1.99s | Tool 'run_browser_harness' 2.13s | Success=True\n  Step 17: Gemini 2.39s | Tool 'run_browser_harness' 3.63s | Success=True\n  Step 18: Gemini 2.61s | Tool 'run_browser_harness' 0.08s | Success=True\n  Step 19: Gemini 2.78s | Tool 'run_browser_harness' 2.11s | Success=True\n  Total Gemini: 54.67s\n  Total Tools:  23.29s\n  Total Loop:   78.22s\n=========================================",
+      "timestamp": 1789934466.2599099
+    },
+    "final_result": ""
+  },
+  {
+    "run_idx": 2,
+    "task_id": "maps-val-run-2-1789934471",
+    "wall_clock_time": 75.95681285858154,
+    "completed_event_data": null,
+    "server_timing": {
+      "task": "Open Google Maps and perform fresh research only. Do not use conversation memory or previously stored results.\n\nFind the best way to travel from VIT Chennai to Phoenix Marketcity Chennai using MTC buses only.\n\nRequirements:\n- Use only MTC/public buses as the main transport.\n- No cab, auto, metro, or train.\n- Prefer fewer transfers and shorter total travel time.\n\nUse Google Maps transit directions to determine the route.\n\nFind and report:\n1. Starting bus stop near VIT Chennai\n2. Bus number(s)\n3. Transfer stop(s), if any\n4. Final bus stop near Phoenix Marketcity\n5. Walking distance at the start and end\n6. Approximate total travel time\n7. Approximate waiting/transfer time\n8. Approximate fare if available\n9. Useful operating times if available\n\nThen use Google Maps to find 5 highly rated restaurants inside or near Phoenix Marketcity.\n\nRequirements:\n- Rating \u2265 4.2\n- At least 500 reviews\n\nFor each restaurant report:\n- Name\n- Rating\n- Review count\n- Cuisine\n- Approximate distance from Phoenix Marketcity\n\nFinally give me:\n- The simplest MTC route\n- A faster alternative, if one exists\n- The 5 restaurant options\n\nDo not book or purchase anything.",
+      "duration_seconds": 75.95,
+      "timing_summary": {
+        "total_gemini_duration_s": 53.184024250367656,
+        "total_tool_duration_s": 22.744303625426255,
+        "steps": [
+          {
+            "step": 1,
+            "llm_duration_s": 5.47,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 3.62,
+            "success": true
+          },
+          {
+            "step": 2,
+            "llm_duration_s": 3.81,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.1,
+            "success": true
+          },
+          {
+            "step": 3,
+            "llm_duration_s": 3.38,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 3.63,
+            "success": true
+          },
+          {
+            "step": 4,
+            "llm_duration_s": 2.31,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 3.62,
+            "success": true
+          },
+          {
+            "step": 5,
+            "llm_duration_s": 2.1,
+            "tool": "execute_browser_action",
+            "tool_duration_s": 0.51,
+            "success": true
+          },
+          {
+            "step": 6,
+            "llm_duration_s": 2.64,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.1,
+            "success": true
+          },
+          {
+            "step": 7,
+            "llm_duration_s": 4.7,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.1,
+            "success": true
+          },
+          {
+            "step": 8,
+            "llm_duration_s": 2.56,
+            "tool": "execute_browser_action",
+            "tool_duration_s": 0.49,
+            "success": true
+          },
+          {
+            "step": 9,
+            "llm_duration_s": 2.17,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 2.1,
+            "success": true
+          },
+          {
+            "step": 10,
+            "llm_duration_s": 1.76,
+            "tool": "execute_browser_action",
+            "tool_duration_s": 0.49,
+            "success": true
+          },
+          {
+            "step": 11,
+            "llm_duration_s": 1.84,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 1.12,
+            "success": true
+          },
+          {
+            "step": 12,
+            "llm_duration_s": 2.94,
+            "tool": "execute_browser_action",
+            "tool_duration_s": 0.49,
+            "success": true
+          },
+          {
+            "step": 13,
+            "llm_duration_s": 1.8,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 1.13,
+            "success": true
+          },
+          {
+            "step": 14,
+            "llm_duration_s": 1.81,
+            "tool": "execute_browser_action",
+            "tool_duration_s": 0.49,
+            "success": true
+          },
+          {
+            "step": 15,
+            "llm_duration_s": 2.33,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 1.12,
+            "success": true
+          },
+          {
+            "step": 16,
+            "llm_duration_s": 2.16,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 3.63,
+            "success": true
+          }
+        ]
+      },
+      "formatted_table": "\n=== AGENT EXECUTION TIMING BREAKDOWN ===\n  Step 1: Gemini 5.47s | Tool 'run_browser_harness' 3.62s | Success=True\n  Step 2: Gemini 3.81s | Tool 'run_browser_harness' 0.10s | Success=True\n  Step 3: Gemini 3.38s | Tool 'run_browser_harness' 3.63s | Success=True\n  Step 4: Gemini 2.31s | Tool 'run_browser_harness' 3.62s | Success=True\n  Step 5: Gemini 2.10s | Tool 'execute_browser_action' 0.51s | Success=True\n  Step 6: Gemini 2.64s | Tool 'run_browser_harness' 0.10s | Success=True\n  Step 7: Gemini 4.70s | Tool 'run_browser_harness' 0.10s | Success=True\n  Step 8: Gemini 2.56s | Tool 'execute_browser_action' 0.49s | Success=True\n  Step 9: Gemini 2.17s | Tool 'run_browser_harness' 2.10s | Success=True\n  Step 10: Gemini 1.76s | Tool 'execute_browser_action' 0.49s | Success=True\n  Step 11: Gemini 1.84s | Tool 'run_browser_harness' 1.12s | Success=True\n  Step 12: Gemini 2.94s | Tool 'execute_browser_action' 0.49s | Success=True\n  Step 13: Gemini 1.80s | Tool 'run_browser_harness' 1.13s | Success=True\n  Step 14: Gemini 1.81s | Tool 'execute_browser_action' 0.49s | Success=True\n  Step 15: Gemini 2.33s | Tool 'run_browser_harness' 1.12s | Success=True\n  Step 16: Gemini 2.16s | Tool 'run_browser_harness' 3.63s | Success=True\n  Total Gemini: 53.18s\n  Total Tools:  22.74s\n  Total Loop:   75.95s\n=========================================",
+      "timestamp": 1789934547.2415712
+    },
+    "final_result": ""
+  },
+  {
+    "run_idx": 3,
+    "task_id": "maps-val-run-3-1789934552",
+    "wall_clock_time": 93.53079891204834,
+    "completed_event_data": null,
+    "server_timing": {
+      "task": "Open Google Maps and perform fresh research only. Do not use conversation memory or previously stored results.\n\nFind the best way to travel from VIT Chennai to Phoenix Marketcity Chennai using MTC buses only.\n\nRequirements:\n- Use only MTC/public buses as the main transport.\n- No cab, auto, metro, or train.\n- Prefer fewer transfers and shorter total travel time.\n\nUse Google Maps transit directions to determine the route.\n\nFind and report:\n1. Starting bus stop near VIT Chennai\n2. Bus number(s)\n3. Transfer stop(s), if any\n4. Final bus stop near Phoenix Marketcity\n5. Walking distance at the start and end\n6. Approximate total travel time\n7. Approximate waiting/transfer time\n8. Approximate fare if available\n9. Useful operating times if available\n\nThen use Google Maps to find 5 highly rated restaurants inside or near Phoenix Marketcity.\n\nRequirements:\n- Rating \u2265 4.2\n- At least 500 reviews\n\nFor each restaurant report:\n- Name\n- Rating\n- Review count\n- Cuisine\n- Approximate distance from Phoenix Marketcity\n\nFinally give me:\n- The simplest MTC route\n- A faster alternative, if one exists\n- The 5 restaurant options\n\nDo not book or purchase anything.",
+      "duration_seconds": 93.52,
+      "timing_summary": {
+        "total_gemini_duration_s": 70.0972059542546,
+        "total_tool_duration_s": 23.398261499009095,
+        "steps": [
+          {
+            "step": 1,
+            "llm_duration_s": 3.75,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.63,
+            "success": true
+          },
+          {
+            "step": 2,
+            "llm_duration_s": 3.64,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 3.66,
+            "success": true
+          },
+          {
+            "step": 3,
+            "llm_duration_s": 2.23,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.1,
+            "success": true
+          },
+          {
+            "step": 4,
+            "llm_duration_s": 3.99,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.1,
+            "success": true
+          },
+          {
+            "step": 5,
+            "llm_duration_s": 2.19,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.14,
+            "success": true
+          },
+          {
+            "step": 6,
+            "llm_duration_s": 1.79,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.1,
+            "success": true
+          },
+          {
+            "step": 7,
+            "llm_duration_s": 2.18,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.1,
+            "success": true
+          },
+          {
+            "step": 8,
+            "llm_duration_s": 2.57,
+            "tool": "execute_browser_action",
+            "tool_duration_s": 0.56,
+            "success": true
+          },
+          {
+            "step": 9,
+            "llm_duration_s": 2.5,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.1,
+            "success": true
+          },
+          {
+            "step": 10,
+            "llm_duration_s": 3.11,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.1,
+            "success": true
+          },
+          {
+            "step": 11,
+            "llm_duration_s": 3.34,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.1,
+            "success": true
+          },
+          {
+            "step": 12,
+            "llm_duration_s": 1.8,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.09,
+            "success": true
+          },
+          {
+            "step": 13,
+            "llm_duration_s": 2.96,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 2.13,
+            "success": true
+          },
+          {
+            "step": 14,
+            "llm_duration_s": 2.48,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.0,
+            "success": false
+          },
+          {
+            "step": 15,
+            "llm_duration_s": 2.05,
+            "tool": "execute_browser_action",
+            "tool_duration_s": 0.5,
+            "success": true
+          },
+          {
+            "step": 16,
+            "llm_duration_s": 1.83,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 2.12,
+            "success": true
+          },
+          {
+            "step": 17,
+            "llm_duration_s": 1.88,
+            "tool": "execute_browser_action",
+            "tool_duration_s": 0.48,
+            "success": true
+          },
+          {
+            "step": 18,
+            "llm_duration_s": 1.82,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 2.13,
+            "success": true
+          },
+          {
+            "step": 19,
+            "llm_duration_s": 1.75,
+            "tool": "execute_browser_action",
+            "tool_duration_s": 0.52,
+            "success": true
+          },
+          {
+            "step": 20,
+            "llm_duration_s": 2.21,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 2.12,
+            "success": true
+          },
+          {
+            "step": 21,
+            "llm_duration_s": 2.21,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 3.66,
+            "success": true
+          },
+          {
+            "step": 22,
+            "llm_duration_s": 6.03,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.12,
+            "success": true
+          },
+          {
+            "step": 23,
+            "llm_duration_s": 2.6,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.1,
+            "success": true
+          },
+          {
+            "step": 24,
+            "llm_duration_s": 2.7,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 3.64,
+            "success": true
+          },
+          {
+            "step": 25,
+            "llm_duration_s": 2.53,
+            "tool": "run_browser_harness",
+            "tool_duration_s": 0.1,
+            "success": true
+          }
+        ]
+      },
+      "formatted_table": "\n=== AGENT EXECUTION TIMING BREAKDOWN ===\n  Step 1: Gemini 3.75s | Tool 'run_browser_harness' 0.63s | Success=True\n  Step 2: Gemini 3.64s | Tool 'run_browser_harness' 3.66s | Success=True\n  Step 3: Gemini 2.23s | Tool 'run_browser_harness' 0.10s | Success=True\n  Step 4: Gemini 3.99s | Tool 'run_browser_harness' 0.10s | Success=True\n  Step 5: Gemini 2.19s | Tool 'run_browser_harness' 0.14s | Success=True\n  Step 6: Gemini 1.79s | Tool 'run_browser_harness' 0.10s | Success=True\n  Step 7: Gemini 2.18s | Tool 'run_browser_harness' 0.10s | Success=True\n  Step 8: Gemini 2.57s | Tool 'execute_browser_action' 0.56s | Success=True\n  Step 9: Gemini 2.50s | Tool 'run_browser_harness' 0.10s | Success=True\n  Step 10: Gemini 3.11s | Tool 'run_browser_harness' 0.10s | Success=True\n  Step 11: Gemini 3.34s | Tool 'run_browser_harness' 0.10s | Success=True\n  Step 12: Gemini 1.80s | Tool 'run_browser_harness' 0.09s | Success=True\n  Step 13: Gemini 2.96s | Tool 'run_browser_harness' 2.13s | Success=True\n  Step 14: Gemini 2.48s | Tool 'run_browser_harness' 0.00s | Success=False\n  Step 15: Gemini 2.05s | Tool 'execute_browser_action' 0.50s | Success=True\n  Step 16: Gemini 1.83s | Tool 'run_browser_harness' 2.12s | Success=True\n  Step 17: Gemini 1.88s | Tool 'execute_browser_action' 0.48s | Success=True\n  Step 18: Gemini 1.82s | Tool 'run_browser_harness' 2.13s | Success=True\n  Step 19: Gemini 1.75s | Tool 'execute_browser_action' 0.52s | Success=True\n  Step 20: Gemini 2.21s | Tool 'run_browser_harness' 2.12s | Success=True\n  Step 21: Gemini 2.21s | Tool 'run_browser_harness' 3.66s | Success=True\n  Step 22: Gemini 6.03s | Tool 'run_browser_harness' 0.12s | Success=True\n  Step 23: Gemini 2.60s | Tool 'run_browser_harness' 0.10s | Success=True\n  Step 24: Gemini 2.70s | Tool 'run_browser_harness' 3.64s | Success=True\n  Step 25: Gemini 2.53s | Tool 'run_browser_harness' 0.10s | Success=True\n  Total Gemini: 70.10s\n  Total Tools:  23.40s\n  Total Loop:   93.52s\n=========================================",
+      "timestamp": 1789934645.8037388
+    },
+    "final_result": ""
+  }
+]

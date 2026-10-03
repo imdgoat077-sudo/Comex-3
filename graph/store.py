@@ -26,8 +26,15 @@ class AgentGraphStore:
         db_dir = os.path.dirname(os.path.abspath(db_path))
         os.makedirs(db_dir, exist_ok=True)
         self.db_path = db_path
-        self.db = kuzu.Database(db_path)
-        self.conn = kuzu.Connection(self.db)
+        # Configure bounded buffer pool, mmap virtual memory space, and thread count
+        # Default 8TB max_db_size triggers macOS ARM64 GPU carveout KERN_PROTECTION_FAILURE (SIGBUS 10).
+        self.db = kuzu.Database(
+            db_path,
+            buffer_pool_size=256 * 1024 * 1024,
+            max_db_size=4 * 1024 * 1024 * 1024,
+            max_num_threads=1
+        )
+        self.conn = kuzu.Connection(self.db, num_threads=1)
         self._lock = threading.Lock()
         with self._lock:
             run_migrations(self.conn)
@@ -441,6 +448,24 @@ class AgentGraphStore:
             elapsed_ms = (time.perf_counter() - t0) * 1000.0
             logger.debug(f"Graph read get_agent_provenance ({agent_id}) completed in {elapsed_ms:.2f}ms")
             return agent_data
+
+    def get_recent_agents(self, limit: int = 5) -> list[dict]:
+        with self._lock:
+            res = self.conn.execute(
+                f"MATCH (a:Agent) RETURN a.id, a.task, a.status, a.created_at, a.completed_at, a.step_count ORDER BY a.created_at DESC LIMIT {int(limit)}"
+            )
+            agents = []
+            while res.has_next():
+                row = res.get_next()
+                agents.append({
+                    "id": row[0],
+                    "task": row[1],
+                    "status": row[2],
+                    "created_at": str(row[3]),
+                    "completed_at": str(row[4]) if row[4] else None,
+                    "step_count": row[5]
+                })
+            return agents
 
     def get_stats(self) -> dict:
         with self._lock:
@@ -1037,3 +1062,210 @@ class AgentGraphStore:
             query = "MATCH (s:Skill {id: $id}) DETACH DELETE s"
             self.conn.execute(query, {"id": skill_id})
             return True
+
+    def save_site_adapter(self, name: str, domain: str, action_intent: str,
+                          code_template: str, parameter_schema: dict | None = None,
+                          dom_fingerprint: dict | None = None,
+                          adapter_id: str | None = None,
+                          episode_id: str | None = None) -> str:
+        """Persist or update a compiled Fast-Path SiteAdapter."""
+        with self._lock:
+            now = _utcnow()
+            aid = adapter_id or f"adp_{uuid.uuid4().hex[:12]}"
+            param_schema_str = json.dumps(parameter_schema or {})
+            dom_fp_str = json.dumps(dom_fingerprint or {})
+
+            query = """
+            MERGE (a:SiteAdapter {id: $id})
+            ON CREATE SET a.name = $name,
+                          a.domain = $domain,
+                          a.action_intent = $action_intent,
+                          a.code_template = $code_template,
+                          a.parameter_schema = $param_schema,
+                          a.dom_fingerprint = $dom_fp,
+                          a.success_count = 1,
+                          a.failure_count = 0,
+                          a.last_success_at = $now,
+                          a.status = 'active',
+                          a.created_at = $now,
+                          a.updated_at = $now
+            ON MATCH SET a.name = $name,
+                         a.action_intent = $action_intent,
+                         a.code_template = $code_template,
+                         a.parameter_schema = $param_schema,
+                         a.dom_fingerprint = $dom_fp,
+                         a.status = 'active',
+                         a.updated_at = $now
+            """
+            params = {
+                "id": aid,
+                "name": name,
+                "domain": domain.lower(),
+                "action_intent": action_intent,
+                "code_template": code_template,
+                "param_schema": param_schema_str,
+                "dom_fp": dom_fp_str,
+                "now": now
+            }
+            self.conn.execute(query, params)
+
+            if episode_id:
+                try:
+                    rel_query = """
+                    MATCH (a:SiteAdapter {id: $aid}), (ep:Episode {id: $ep_id})
+                    MERGE (a)-[:COMPILED_FROM]->(ep)
+                    """
+                    self.conn.execute(rel_query, {"aid": aid, "ep_id": episode_id})
+                except Exception as re:
+                    logger.warning(f"Graph: failed to link COMPILED_FROM: {re}")
+
+            return aid
+
+    def find_matching_adapter(self, domain: str, intent_query: str, limit: int = 1) -> list[dict]:
+        """Find active compiled adapters for a domain matching an intent."""
+        with self._lock:
+            dom = domain.lower().strip()
+            query = """
+            MATCH (a:SiteAdapter)
+            WHERE (a.domain = $domain OR a.domain = '*') AND a.status <> 'broken'
+            RETURN a
+            ORDER BY a.success_count DESC, a.updated_at DESC
+            LIMIT 10
+            """
+            res = self.conn.execute(query, {"domain": dom})
+            matches = []
+            words = set(intent_query.lower().split())
+            while res.has_next():
+                item = res.get_next()[0]
+                adapter_dict = {
+                    "id": item.get("id"),
+                    "name": item.get("name"),
+                    "domain": item.get("domain"),
+                    "action_intent": item.get("action_intent"),
+                    "code_template": item.get("code_template"),
+                    "parameter_schema": json.loads(item.get("parameter_schema") or "{}"),
+                    "dom_fingerprint": json.loads(item.get("dom_fingerprint") or "{}"),
+                    "success_count": item.get("success_count", 0),
+                    "failure_count": item.get("failure_count", 0),
+                    "status": item.get("status", "active"),
+                }
+                target_intent = str(item.get("action_intent", "")).lower()
+                target_words = set(target_intent.split())
+                overlap = len(words & target_words)
+                adapter_dict["match_score"] = overlap
+                matches.append(adapter_dict)
+
+            matches.sort(key=lambda x: (x["match_score"], x["success_count"]), reverse=True)
+            return matches[:limit]
+
+    def record_adapter_outcome(self, adapter_id: str, success: bool) -> None:
+        """Update success/failure statistics and auto-degrade broken adapters."""
+        with self._lock:
+            now = _utcnow()
+            if success:
+                query = """
+                MATCH (a:SiteAdapter {id: $id})
+                SET a.success_count = a.success_count + 1,
+                    a.last_success_at = $now,
+                    a.status = 'active',
+                    a.updated_at = $now
+                """
+            else:
+                query = """
+                MATCH (a:SiteAdapter {id: $id})
+                SET a.failure_count = a.failure_count + 1,
+                    a.status = CASE WHEN a.failure_count >= 3 THEN 'broken' ELSE 'degraded' END,
+                    a.updated_at = $now
+                """
+            try:
+                self.conn.execute(query, {"id": adapter_id, "now": now})
+            except Exception as e:
+                logger.warning(f"Graph: failed to record adapter outcome: {e}")
+
+    def get_all_adapters(self, domain: str | None = None) -> list[dict]:
+        """Return all stored site adapters, optionally filtered by domain."""
+        with self._lock:
+            if domain:
+                query = "MATCH (a:SiteAdapter) WHERE a.domain = $domain RETURN a ORDER BY a.updated_at DESC"
+                res = self.conn.execute(query, {"domain": domain.lower()})
+            else:
+                query = "MATCH (a:SiteAdapter) RETURN a ORDER BY a.updated_at DESC"
+                res = self.conn.execute(query)
+            adapters = []
+            while res.has_next():
+                a = res.get_next()[0]
+                adapters.append({
+                    "id": a.get("id"),
+                    "name": a.get("name"),
+                    "domain": a.get("domain"),
+                    "action_intent": a.get("action_intent"),
+                    "code_template": a.get("code_template"),
+                    "parameter_schema": json.loads(a.get("parameter_schema") or "{}"),
+                    "dom_fingerprint": json.loads(a.get("dom_fingerprint") or "{}"),
+                    "success_count": a.get("success_count", 0),
+                    "failure_count": a.get("failure_count", 0),
+                    "status": a.get("status", "active"),
+                    "created_at": str(a.get("created_at")),
+                    "updated_at": str(a.get("updated_at"))
+                })
+            return adapters
+
+    def delete_adapter(self, adapter_id: str) -> bool:
+        """Delete an adapter by ID."""
+        with self._lock:
+            query = "MATCH (a:SiteAdapter {id: $id}) DETACH DELETE a"
+            self.conn.execute(query, {"id": adapter_id})
+            return True
+
+    def record_antipattern(self, domain: str, failed_selector: str, trap_type: str, mitigation_hint: str) -> str:
+        """Record or increment a known anti-pattern for a domain."""
+        with self._lock:
+            now = _utcnow()
+            ap_id = f"ap_{hash(f'{domain}:{failed_selector}') & 0xFFFFFFFF:08x}"
+            query = """
+            MERGE (ap:AntiPattern {id: $id})
+            ON CREATE SET ap.domain = $domain,
+                          ap.failed_selector = $failed_selector,
+                          ap.trap_type = $trap_type,
+                          ap.mitigation_hint = $mitigation_hint,
+                          ap.occurrence_count = 1,
+                          ap.last_seen_at = $now,
+                          ap.created_at = $now
+            ON MATCH SET ap.occurrence_count = ap.occurrence_count + 1,
+                         ap.mitigation_hint = $mitigation_hint,
+                         ap.last_seen_at = $now
+            """
+            params = {
+                "id": ap_id,
+                "domain": domain.lower(),
+                "failed_selector": failed_selector,
+                "trap_type": trap_type,
+                "mitigation_hint": mitigation_hint,
+                "now": now
+            }
+            self.conn.execute(query, params)
+            return ap_id
+
+    def get_domain_antipatterns(self, domain: str, limit: int = 5) -> list[dict]:
+        """Fetch known failure patterns for a domain."""
+        with self._lock:
+            query = """
+            MATCH (ap:AntiPattern)
+            WHERE ap.domain = $domain OR ap.domain = '*'
+            RETURN ap
+            ORDER BY ap.occurrence_count DESC, ap.last_seen_at DESC
+            LIMIT $limit
+            """
+            res = self.conn.execute(query, {"domain": domain.lower(), "limit": limit})
+            antipatterns = []
+            while res.has_next():
+                row = res.get_next()[0]
+                antipatterns.append({
+                    "id": row.get("id"),
+                    "domain": row.get("domain"),
+                    "failed_selector": row.get("failed_selector"),
+                    "trap_type": row.get("trap_type"),
+                    "mitigation_hint": row.get("mitigation_hint"),
+                    "occurrence_count": row.get("occurrence_count", 1)
+                })
+            return antipatterns

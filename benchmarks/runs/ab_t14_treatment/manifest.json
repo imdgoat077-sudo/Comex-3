@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "ab_t14_1789889795_treatment",
+  "arm": "C",
+  "repetitions": 10,
+  "start_time": "2026-09-20T07:36:36Z",
+  "end_time": "2026-09-20T07:44:55Z",
+  "elapsed_seconds": 499.31,
+  "environment": {
+    "git_commit": "ea825e457d059f3c4b6c60de7bcf75af8eb0868b",
+    "git_branch": "main",
+    "git_dirty": true,
+    "os_platform": "macOS-26.3.1-arm64-arm-64bit",
+    "os_arch": "arm64",
+    "python_version": "3.12.12",
+    "node_version": "v24.12.0",
+    "electron_version": "v43.4.0",
+    "cdp_port": 9222,
+    "fixture_port": 8890
+  },
+  "configuration": {
+    "condition": "B_TREATMENT",
+    "treatment_t14": true,
+    "effective_interactive_selector": "button, input, select, textarea, a, label, h3, [role=\"button\"], [role=\"checkbox\"], .radio, .email-thread, .email-forward, .email-reply, [class*=\"ui-button\"], [class*=\"close\"], [class*=\"titlebar-close\"], [class*=\"search-title\"], .star",
+    "baseline_selector_hash": "5fe437dd750a188a9b64264e377166df27f701f4a92abfa51cf2b932d476745e",
+    "treatment_selector_hash": "23fea0af71199d7b4536f986317d2b7361ab0088343a1238915187af9fed16bd",
+    "configuration_fingerprint": "76c38da20f33ea5713fa9c9a0a8a2d817ec5144ded73bed5cea695c3a1171698",
+    "task_suite_version": "browsergym-miniwob-1.0",
+    "delegate_jev": true,
+    "shadow_jev": true,
+    "model_system2": "ag/gemini-3.7-flash-medium",
+    "model_system1": "ag/jev-system1",
+    "proxy_url": "http://localhost:20128/v1",
+    "calibration_thresholds": {
+      "CLICK": {
+        "confidence": 0.7,
+        "margin": 0.05,
+        "actionable": true
+      },
+      "FILL": {
+        "confidence": 0.75,
+        "margin": 0.1,
+        "actionable": true
+      },
+      "SELECT": {
+        "confidence": 0.7,
+        "margin": 0.05,
+        "actionable": false,
+        "shadow_only": true
+      }
+    },
+    "task_order": [
+      "T14"
+    ],
+    "task_count": 1
+  },
+  "metrics_summary": {
+    "total_tasks_run": 10,
+    "tasks_passed": 1,
+    "tasks_failed": 9,
+    "task_success_rate_pct": 10.0,
+    "mean_task_duration_s": 26.65,
+    "median_task_duration_s": 29.0,
+    "p90_task_duration_s": 34.85,
+    "p95_task_duration_s": 35.6,
+    "action_metrics": {
+      "total_browser_actions": 30,
+      "jev_attempted_actions": 30,
+      "jev_resolved_actions": 21,
+      "jev_abstained_actions": 9,
+      "jev_routed_actions": 21,
+      "jev_shadow_only_resolutions": 0,
+      "jev_executed_actions": 21,
+      "gemini_executed_actions": 9,
+      "dispatch_attempted_actions": 30,
+      "dispatch_sent_actions": 30,
+      "dispatch_success_actions": 30,
+      "successful_physical_actions": 30,
+      "comex_total_blocks": 0,
+      "comex_physical_safety_blocks": 0,
+      "comex_loop_prevention_blocks": 0,
+      "comex_block_breakdown": {},
+      "delegated_decisions_count": 21,
+      "jev_decision_correctness_count": 21,
+      "successfully_dispatched_jev_actions": 21,
+      "correct_delegated_count": 21,
+      "wrong_target_count": 0,
+      "observed_precision_pct": 100.0,
+      "precision_wilson_95_ci": [
+        0.8454,
+        1.0
+      ],
+      "action_execution_coverage_pct": 70.0,
+      "action_level_jev_coverage_pct": 70.0
+    },
+    "turn_metrics": {
+      "total_gemini_turns": 4,
+      "jev_adjudicated_turns": 4,
+      "jev_delegated_turns": 3,
+      "jev_abstained_turns": 1,
+      "gemini_fallback_turns": 2,
+      "turn_delegation_rate_pct": 75.0,
+      "turn_disposition_coverage_pct": 100.0
+    },
+    "latency_metrics": {
+      "total_model_latency_avoided_s": 81.75,
+      "total_estimated_model_latency_avoided_s": 81.75,
+      "mean_jev_latency_ms": 1076.77,
+      "mean_gemini_latency_ms": 4674.49,
+      "action_wall_latency_p90_ms": 7.46,
+      "action_wall_latency_p95_ms": 8.91,
+      "sample_count_jev": 30,
+      "sample_count_gemini": 30
+    }
+  },
+  "artifacts": {
+    "results_jsonl": "results.jsonl",
+    "action_ledger_jsonl": "action_ledger.jsonl",
+    "report_md": "report.md"
+  }
+}

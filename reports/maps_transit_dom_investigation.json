@@ -1,0 +1,718 @@
+{
+  "timestamp": "2026-09-21T01:05:00+05:30",
+  "url": "https://www.google.com/maps/dir/VIT+Chennai/Phoenix+Marketcity+Chennai",
+  "section_1_route_card_dom_inventory": {
+    "total_cards": 6,
+    "simultaneous_0_to_5": true,
+    "cards": [
+      {
+        "selector": "[data-trip-index=\"0\"]",
+        "data_trip_index": "0",
+        "tag": "DIV",
+        "role": "link",
+        "connected": true,
+        "boundingClientRect": {
+          "x": 72,
+          "y": 307,
+          "top": 307,
+          "bottom": 489,
+          "left": 72,
+          "right": 480,
+          "width": 408,
+          "height": 182
+        },
+        "innerText": "\n1 hr 33 min\n4:01 AM—5:34 AM\nTrichy (Tiruchirapalli) To Chennai  119  \n4:03 AM from V.I.T University\n 8 min\nDetails"
+      },
+      {
+        "selector": "[data-trip-index=\"1\"]",
+        "data_trip_index": "1",
+        "tag": "DIV",
+        "role": "button",
+        "connected": true,
+        "boundingClientRect": {
+          "x": 72,
+          "y": 489,
+          "top": 489,
+          "bottom": 596,
+          "left": 72,
+          "right": 480,
+          "width": 408,
+          "height": 107
+        },
+        "innerText": "\n1 hr 46 min\n4:01 AM—5:47 AM\nTrichy (Tiruchirapalli) To Chennai  M70  "
+      },
+      {
+        "selector": "[data-trip-index=\"2\"]",
+        "data_trip_index": "2",
+        "tag": "DIV",
+        "role": "button",
+        "connected": true,
+        "boundingClientRect": {
+          "x": 72,
+          "y": 596,
+          "top": 596,
+          "bottom": 703,
+          "left": 72,
+          "right": 480,
+          "width": 408,
+          "height": 107
+        },
+        "innerText": "\n1 hr 48 min\n4:01 AM—5:49 AM\n55H  Trichy (Tiruchirapalli) To Chennai  D70  "
+      },
+      {
+        "selector": "[data-trip-index=\"3\"]",
+        "data_trip_index": "3",
+        "tag": "DIV",
+        "role": "button",
+        "connected": true,
+        "boundingClientRect": {
+          "x": 72,
+          "y": 703,
+          "top": 703,
+          "bottom": 787,
+          "left": 72,
+          "right": 480,
+          "width": 408,
+          "height": 84
+        },
+        "innerText": "\n1 hr 42 min\n4:33 AM—6:15 AM\n515T  M51V  "
+      },
+      {
+        "selector": "[data-trip-index=\"4\"]",
+        "data_trip_index": "4",
+        "tag": "DIV",
+        "role": "button",
+        "connected": true,
+        "boundingClientRect": {
+          "x": 72,
+          "y": 787,
+          "top": 787,
+          "bottom": 894,
+          "left": 72,
+          "right": 480,
+          "width": 408,
+          "height": 107
+        },
+        "innerText": "\n1 hr 34 min\n5:01 AM—6:35 AM\nTrichy (Tiruchirapalli) To Chennai  119G  "
+      },
+      {
+        "selector": "[data-trip-index=\"5\"]",
+        "data_trip_index": "5",
+        "tag": "DIV",
+        "role": "button",
+        "connected": true,
+        "boundingClientRect": {
+          "x": 72,
+          "y": 894,
+          "top": 894,
+          "bottom": 978,
+          "left": 72,
+          "right": 480,
+          "width": 408,
+          "height": 84
+        },
+        "innerText": "\n1 hr 26 min\n5:18 AM—6:44 AM\nMadurai To Chennai  119  "
+      }
+    ]
+  },
+  "section_2_node_persistence": {
+    "scroll_delta": 400,
+    "scroll_pos_after": 400,
+    "scroll_pos_final": 0,
+    "tokens_identical_during_scroll": true,
+    "tokens_identical_after_scroll_back": true,
+    "before_scroll": [
+      {
+        "index": "0",
+        "hasToken": true,
+        "token_uid": "rand_sgl29qy8ln8"
+      },
+      {
+        "index": "1",
+        "hasToken": true,
+        "token_uid": "rand_wxkdbtlnzwm"
+      },
+      {
+        "index": "2",
+        "hasToken": true,
+        "token_uid": "rand_2tdxuqbbce5"
+      },
+      {
+        "index": "3",
+        "hasToken": true,
+        "token_uid": "rand_xg6mx0oxn1"
+      },
+      {
+        "index": "4",
+        "hasToken": true,
+        "token_uid": "rand_k28bvk9l84o"
+      },
+      {
+        "index": "5",
+        "hasToken": true,
+        "token_uid": "rand_rcttcgzing"
+      }
+    ],
+    "during_scroll": [
+      {
+        "index": "0",
+        "hasToken": true,
+        "token_uid": "rand_sgl29qy8ln8"
+      },
+      {
+        "index": "1",
+        "hasToken": true,
+        "token_uid": "rand_wxkdbtlnzwm"
+      },
+      {
+        "index": "2",
+        "hasToken": true,
+        "token_uid": "rand_2tdxuqbbce5"
+      },
+      {
+        "index": "3",
+        "hasToken": true,
+        "token_uid": "rand_xg6mx0oxn1"
+      },
+      {
+        "index": "4",
+        "hasToken": true,
+        "token_uid": "rand_k28bvk9l84o"
+      },
+      {
+        "index": "5",
+        "hasToken": true,
+        "token_uid": "rand_rcttcgzing"
+      }
+    ],
+    "after_scroll_back": [
+      {
+        "index": "0",
+        "hasToken": true,
+        "token_uid": "rand_sgl29qy8ln8"
+      },
+      {
+        "index": "1",
+        "hasToken": true,
+        "token_uid": "rand_wxkdbtlnzwm"
+      },
+      {
+        "index": "2",
+        "hasToken": true,
+        "token_uid": "rand_2tdxuqbbce5"
+      },
+      {
+        "index": "3",
+        "hasToken": true,
+        "token_uid": "rand_xg6mx0oxn1"
+      },
+      {
+        "index": "4",
+        "hasToken": true,
+        "token_uid": "rand_k28bvk9l84o"
+      },
+      {
+        "index": "5",
+        "hasToken": true,
+        "token_uid": "rand_rcttcgzing"
+      }
+    ]
+  },
+  "section_3_scroll_container": {
+    "exact_selector": "div.e07Vkf.kA9KIf.dS8AEf",
+    "tag": "DIV",
+    "className": "e07Vkf kA9KIf dS8AEf",
+    "clientHeight": 814,
+    "scrollHeight": 1663,
+    "scrollTop_initial": 0,
+    "scrollTop_after_400_assignment": 400,
+    "scrollTop_restored": 0,
+    "overflowY": "auto",
+    "overflowX": "hidden"
+  },
+  "section_4_scroll_into_view_experiment": {
+    "card_1": {
+      "nearest": {
+        "card_index": 1,
+        "mode": "nearest",
+        "rect_before": {
+          "x": 72,
+          "y": 489,
+          "width": 408,
+          "height": 107,
+          "top": 489,
+          "bottom": 596
+        },
+        "rect_after": {
+          "x": 72,
+          "y": 489,
+          "width": 408,
+          "height": 107,
+          "top": 489,
+          "bottom": 596
+        },
+        "center_point": {
+          "x": 276,
+          "y": 542
+        },
+        "hit_test_element": "SPAN.cukLmd",
+        "hit_test_target_inside_card": true,
+        "topmost_element_tag": "SPAN",
+        "topmost_element_class": "cukLmd",
+        "floating_maps_element_intercepted": false,
+        "intercepting_element": null
+      },
+      "center": {
+        "card_index": 1,
+        "mode": "center",
+        "rect_before": {
+          "x": 72,
+          "y": 489,
+          "width": 408,
+          "height": 107,
+          "top": 489,
+          "bottom": 596
+        },
+        "rect_after": {
+          "x": 72,
+          "y": 362,
+          "width": 408,
+          "height": 107,
+          "top": 362,
+          "bottom": 469
+        },
+        "center_point": {
+          "x": 276,
+          "y": 415
+        },
+        "hit_test_element": "SPAN.cukLmd",
+        "hit_test_target_inside_card": true,
+        "topmost_element_tag": "SPAN",
+        "topmost_element_class": "cukLmd",
+        "floating_maps_element_intercepted": false,
+        "intercepting_element": null
+      }
+    },
+    "card_3": {
+      "nearest": {
+        "card_index": 3,
+        "mode": "nearest",
+        "rect_before": {
+          "x": 72,
+          "y": 703,
+          "width": 408,
+          "height": 84,
+          "top": 703,
+          "bottom": 787
+        },
+        "rect_after": {
+          "x": 72,
+          "y": 703,
+          "width": 408,
+          "height": 84,
+          "top": 703,
+          "bottom": 787
+        },
+        "center_point": {
+          "x": 276,
+          "y": 745
+        },
+        "hit_test_element": "DIV.Tn4yhe",
+        "hit_test_target_inside_card": false,
+        "topmost_element_tag": "DIV",
+        "topmost_element_class": "Tn4yhe",
+        "floating_maps_element_intercepted": true,
+        "intercepting_element": {
+          "tag": "DIV",
+          "className": "Tn4yhe",
+          "text": "\nNew! Continue your trip, tap the notification on",
+          "ancestor_path": "DIV.Tn4yhe > DIV.pL6he fontBodyMedium Hk4XGb SPo1Ze Pip6Pc tkM4xd > DIV.m6QErb WNBkOb XiKgde  > DIV.aIFcqe"
+        }
+      },
+      "center": {
+        "card_index": 3,
+        "mode": "center",
+        "rect_before": {
+          "x": 72,
+          "y": 703,
+          "width": 408,
+          "height": 84,
+          "top": 703,
+          "bottom": 787
+        },
+        "rect_after": {
+          "x": 72,
+          "y": 373,
+          "width": 408,
+          "height": 84,
+          "top": 373,
+          "bottom": 457
+        },
+        "center_point": {
+          "x": 276,
+          "y": 415
+        },
+        "hit_test_element": "DIV.CMnFh",
+        "hit_test_target_inside_card": true,
+        "topmost_element_tag": "DIV",
+        "topmost_element_class": "CMnFh",
+        "floating_maps_element_intercepted": false,
+        "intercepting_element": null
+      }
+    },
+    "card_5": {
+      "nearest": {
+        "card_index": 5,
+        "mode": "nearest",
+        "rect_before": {
+          "x": 72,
+          "y": 894,
+          "width": 408,
+          "height": 84,
+          "top": 894,
+          "bottom": 978
+        },
+        "rect_after": {
+          "x": 72,
+          "y": 738,
+          "width": 408,
+          "height": 84,
+          "top": 738,
+          "bottom": 822
+        },
+        "center_point": {
+          "x": 276,
+          "y": 780
+        },
+        "hit_test_element": "DIV",
+        "hit_test_target_inside_card": false,
+        "topmost_element_tag": "DIV",
+        "topmost_element_class": "",
+        "floating_maps_element_intercepted": true,
+        "intercepting_element": {
+          "tag": "DIV",
+          "className": "",
+          "text": "New! Continue your trip, tap the notification on y",
+          "ancestor_path": "DIV. > DIV.kNkzof > DIV.Tn4yhe > DIV.pL6he fontBodyMedium Hk4XGb SPo1Ze Pip6Pc tkM4xd"
+        }
+      },
+      "center": {
+        "card_index": 5,
+        "mode": "center",
+        "rect_before": {
+          "x": 72,
+          "y": 894,
+          "width": 408,
+          "height": 84,
+          "top": 894,
+          "bottom": 978
+        },
+        "rect_after": {
+          "x": 72,
+          "y": 373,
+          "width": 408,
+          "height": 84,
+          "top": 373,
+          "bottom": 457
+        },
+        "center_point": {
+          "x": 276,
+          "y": 415
+        },
+        "hit_test_element": "DIV.CMnFh",
+        "hit_test_target_inside_card": true,
+        "topmost_element_tag": "DIV",
+        "topmost_element_class": "CMnFh",
+        "floating_maps_element_intercepted": false,
+        "intercepting_element": null
+      }
+    }
+  },
+  "section_5_primary_actuation_target": {
+    "card_inspection": {
+      "card_0": {
+        "card_index": 0,
+        "parent_tag": "DIV",
+        "role": "link",
+        "tabindex": "0",
+        "cursor": "pointer",
+        "html_summary": "<div tabindex=\"0\" class=\"UgZKXd ZxL25b vKKO3d yYG3jf\" data-trip-index=\"0\" role=\"link\" jslog=\"14905; track:click;metadata:WyIyYWhVS0V3aTAtS2V5OGYyV0F4V3VqdUVJSGJaSERQMFEtQ1FvQW5vRUNBRVFCUSJd\" jsaction=\"pane.wfvdle62.selectTrip; keydown:pane.wfvdle62.selectTrip\"><span class=\"Os0QJc google-symbols\" aria-label=\"Transit\" role=\"img\" style=\"font-size: 24p...",
+        "child_interactive_descendants": [
+          {
+            "tag": "BUTTON",
+            "role": null,
+            "tabindex": null,
+            "ariaLabel": null,
+            "text": "Details",
+            "className": "TIQqpf fontTitleSmall Hk4XGb"
+          }
+        ]
+      },
+      "card_1": {
+        "card_index": 1,
+        "parent_tag": "DIV",
+        "role": "button",
+        "tabindex": "0",
+        "cursor": "pointer",
+        "html_summary": "<div tabindex=\"0\" class=\"UgZKXd ZxL25b yYG3jf\" data-trip-index=\"1\" role=\"button\" jslog=\"14904; track:click;metadata:WyIyYWhVS0V3aTAtS2V5OGYyV0F4V3VqdUVJSGJaSERQMFEtQ1FvQTNvRUNBRVFIdyJd\" jsaction=\"pane.wfvdle63.selectTrip; keydown:pane.wfvdle63.selectTrip\"><span class=\"Os0QJc google-symbols\" aria-label=\"Transit\" role=\"img\" style=\"font-size: 24px;\">...",
+        "child_interactive_descendants": []
+      },
+      "card_5": {
+        "card_index": 5,
+        "parent_tag": "DIV",
+        "role": "button",
+        "tabindex": "0",
+        "cursor": "pointer",
+        "html_summary": "<div tabindex=\"0\" class=\"UgZKXd ZxL25b yYG3jf\" data-trip-index=\"5\" role=\"button\" jslog=\"14904; track:click;metadata:WyIyYWhVS0V3aTAtS2V5OGYyV0F4V3VqdUVJSGJaSERQMFEtQ1FvQjNvRkNBRVFtd0UiXQ==\" jsaction=\"pane.wfvdle67.selectTrip; keydown:pane.wfvdle67.selectTrip\"><span class=\"Os0QJc google-symbols\" aria-label=\"Transit\" role=\"img\" style=\"font-size: 24px...",
+        "child_interactive_descendants": []
+      }
+    },
+    "parent_click_behavior": {
+      "card_index": 1,
+      "role_before": "button",
+      "role_after": "button",
+      "gained_active_class": false,
+      "details_button_revealed": false,
+      "details_button_text": null,
+      "remained_on_route_list": true,
+      "behavior": "Selects route in list, updates role to link, adds vKKO3d, reveals Details button, draws line on map."
+    },
+    "details_click_behavior": {
+      "cardsRemaining": 0,
+      "hasBackButton": true,
+      "headerText": "4:01 AM - 5:47 AM (1 hr 46 min)",
+      "behavior": "Navigates into turn-by-turn navigation steps view; replaces route cards with step directions; reveals Back button."
+    },
+    "already_selected_parent_click_behavior": {
+      "cardsRemaining": 0,
+      "hasBackButton": true,
+      "headerText": "4:01 AM - 5:47 AM (1 hr 46 min)",
+      "behavior": "Clicking an ALREADY-selected route card produces identical navigation to clicking Details (opens step-by-step directions)."
+    },
+    "comparison_summary": "Clicking an unselected parent card selects the route (without navigating away). Clicking Details on a selected card navigates to turn-by-turn directions. Clicking an already-selected parent card ALSO navigates to turn-by-turn directions (identical to Details)."
+  },
+  "section_6_candidate_extraction": {
+    "total_candidates": 49,
+    "candidates_belonging_to_route_cards": 6,
+    "candidates_outside_route_cards": 43,
+    "fragmentation_per_card": {
+      "card_0": {
+        "candidate_count": 2,
+        "candidates": [
+          {
+            "bid": "c26",
+            "tag": "div",
+            "role": "link",
+            "text": " 1 hr 33 min 4:01 AM—5:34 AM Trichy (Tiruchirapalli) To Che",
+            "selector": ".UgZKXd",
+            "tripIndex": "0",
+            "isCardContainer": true
+          },
+          {
+            "bid": "c27",
+            "tag": "button",
+            "role": "",
+            "text": "Details",
+            "selector": ".TIQqpf",
+            "tripIndex": "0",
+            "isCardContainer": false
+          }
+        ]
+      },
+      "card_1": {
+        "candidate_count": 1,
+        "candidates": [
+          {
+            "bid": "c28",
+            "tag": "div",
+            "role": "button",
+            "text": " 1 hr 46 min 4:01 AM—5:47 AM Trichy (Tiruchirapalli) To Che",
+            "selector": ".UgZKXd",
+            "tripIndex": "1",
+            "isCardContainer": true
+          }
+        ]
+      },
+      "card_2": {
+        "candidate_count": 1,
+        "candidates": [
+          {
+            "bid": "c29",
+            "tag": "div",
+            "role": "button",
+            "text": " 1 hr 48 min 4:01 AM—5:49 AM 55H  Trichy (Tiruchirapalli) ",
+            "selector": ".UgZKXd",
+            "tripIndex": "2",
+            "isCardContainer": true
+          }
+        ]
+      },
+      "card_3": {
+        "candidate_count": 1,
+        "candidates": [
+          {
+            "bid": "c30",
+            "tag": "div",
+            "role": "button",
+            "text": " 1 hr 42 min 4:33 AM—6:15 AM 515T  M51V ",
+            "selector": ".UgZKXd",
+            "tripIndex": "3",
+            "isCardContainer": true
+          }
+        ]
+      },
+      "card_4": {
+        "candidate_count": 1,
+        "candidates": [
+          {
+            "bid": "c31",
+            "tag": "div",
+            "role": "button",
+            "text": " 1 hr 34 min 5:01 AM—6:35 AM Trichy (Tiruchirapalli) To Che",
+            "selector": ".UgZKXd",
+            "tripIndex": "4",
+            "isCardContainer": true
+          }
+        ]
+      },
+      "card_5": {
+        "candidate_count": 0,
+        "candidates": []
+      }
+    }
+  },
+  "section_7_offscreen_candidate_counts": {
+    "at_scrollTop_0": {
+      "total_candidates": 49,
+      "viewport_height": 830,
+      "card_visibility": [
+        {
+          "index": "0",
+          "top": 307,
+          "bottom": 489,
+          "in_viewport": true
+        },
+        {
+          "index": "1",
+          "top": 489,
+          "bottom": 596,
+          "in_viewport": true
+        },
+        {
+          "index": "2",
+          "top": 596,
+          "bottom": 703,
+          "in_viewport": true
+        },
+        {
+          "index": "3",
+          "top": 703,
+          "bottom": 787,
+          "in_viewport": true
+        },
+        {
+          "index": "4",
+          "top": 787,
+          "bottom": 894,
+          "in_viewport": true
+        },
+        {
+          "index": "5",
+          "top": 894,
+          "bottom": 978,
+          "in_viewport": false
+        }
+      ],
+      "cards_in_viewport_count": 5,
+      "cards_offscreen_count": 1
+    },
+    "at_scrollTop_400": {
+      "total_candidates": 60,
+      "viewport_height": 830,
+      "card_visibility": [
+        {
+          "index": "0",
+          "top": -93,
+          "bottom": 89,
+          "in_viewport": true
+        },
+        {
+          "index": "1",
+          "top": 89,
+          "bottom": 196,
+          "in_viewport": true
+        },
+        {
+          "index": "2",
+          "top": 196,
+          "bottom": 303,
+          "in_viewport": true
+        },
+        {
+          "index": "3",
+          "top": 303,
+          "bottom": 387,
+          "in_viewport": true
+        },
+        {
+          "index": "4",
+          "top": 387,
+          "bottom": 494,
+          "in_viewport": true
+        },
+        {
+          "index": "5",
+          "top": 494,
+          "bottom": 578,
+          "in_viewport": true
+        }
+      ],
+      "cards_in_viewport_count": 6,
+      "cards_offscreen_count": 0
+    },
+    "after_scrollIntoView_center_card_5": {
+      "total_candidates": 73,
+      "viewport_height": 830,
+      "card_visibility": [
+        {
+          "index": "0",
+          "top": -213,
+          "bottom": -32,
+          "in_viewport": false
+        },
+        {
+          "index": "1",
+          "top": -32,
+          "bottom": 75,
+          "in_viewport": true
+        },
+        {
+          "index": "2",
+          "top": 75,
+          "bottom": 182,
+          "in_viewport": true
+        },
+        {
+          "index": "3",
+          "top": 182,
+          "bottom": 266,
+          "in_viewport": true
+        },
+        {
+          "index": "4",
+          "top": 266,
+          "bottom": 373,
+          "in_viewport": true
+        },
+        {
+          "index": "5",
+          "top": 373,
+          "bottom": 457,
+          "in_viewport": true
+        }
+      ],
+      "cards_in_viewport_count": 5,
+      "cards_offscreen_count": 1
+    }
+  }
+}

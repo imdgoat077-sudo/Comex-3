@@ -136,6 +136,48 @@ NODE_TABLES = [
         PRIMARY KEY(key)
     )
     """,
+    """
+    CREATE NODE TABLE IF NOT EXISTS SiteAdapter(
+        id STRING,
+        name STRING,
+        domain STRING,
+        action_intent STRING,
+        code_template STRING,
+        parameter_schema STRING,
+        dom_fingerprint STRING,
+        success_count INT64,
+        failure_count INT64,
+        last_success_at TIMESTAMP,
+        status STRING,
+        created_at TIMESTAMP,
+        updated_at TIMESTAMP,
+        PRIMARY KEY(id)
+    )
+    """,
+    """
+    CREATE NODE TABLE IF NOT EXISTS DOMFingerprint(
+        id STRING,
+        domain STRING,
+        url_pattern STRING,
+        structural_hash STRING,
+        primary_selectors STRING,
+        created_at TIMESTAMP,
+        PRIMARY KEY(id)
+    )
+    """,
+    """
+    CREATE NODE TABLE IF NOT EXISTS AntiPattern(
+        id STRING,
+        domain STRING,
+        failed_selector STRING,
+        trap_type STRING,
+        mitigation_hint STRING,
+        occurrence_count INT64,
+        last_seen_at TIMESTAMP,
+        created_at TIMESTAMP,
+        PRIMARY KEY(id)
+    )
+    """,
 ]
 
 REL_TABLES = [
@@ -151,6 +193,9 @@ REL_TABLES = [
     "CREATE REL TABLE IF NOT EXISTS REFLECTED_ON(FROM Reflection TO Agent)",
     "CREATE REL TABLE IF NOT EXISTS DISTILLED_FROM(FROM Skill TO Agent)",
     "CREATE REL TABLE IF NOT EXISTS LEARNED_FROM(FROM UserMemory TO Agent)",
+    "CREATE REL TABLE IF NOT EXISTS COMPILED_FROM(FROM SiteAdapter TO Episode)",
+    "CREATE REL TABLE IF NOT EXISTS MATCHES_DOM(FROM SiteAdapter TO DOMFingerprint)",
+    "CREATE REL TABLE IF NOT EXISTS HAS_ANTIPATTERN(FROM Page TO AntiPattern)",
 ]
 
 
@@ -177,7 +222,9 @@ def run_migrations(conn) -> None:
         ("Artifact", "Artifact_FTS", "['title', 'content', 'artifact_type']"),
         ("UserMemory", "UserMemory_FTS", "['category', 'key', 'value']"),
         ("Skill", "Skill_FTS", "['name', 'domain', 'description', 'code_snippet']"),
-        ("Reflection", "Reflection_FTS", "['novelty_reason', 'critique', 'lesson_learned']")
+        ("Reflection", "Reflection_FTS", "['novelty_reason', 'critique', 'lesson_learned']"),
+        ("SiteAdapter", "SiteAdapter_FTS", "['name', 'domain', 'action_intent', 'code_template']"),
+        ("AntiPattern", "AntiPattern_FTS", "['domain', 'failed_selector', 'trap_type', 'mitigation_hint']")
     ]
     for table_name, index_name, properties in fts_indices:
         try:

@@ -9,6 +9,14 @@ const __dirname = path.dirname(__filename);
 app.commandLine.appendSwitch('remote-debugging-port', '9222');
 
 let mainWindow;
+const isVisualCursorEnabled = process.env.VISUAL_CURSOR_ENABLED !== 'false';
+let cursorWindow = null;
+
+function resetVisualCursor() {
+  if (cursorWindow && !cursorWindow.isDestroyed()) {
+    cursorWindow.webContents.send('cursor-reset');
+  }
+}
 const views = new Map(); // tabId -> WebContentsView
 const hiddenAgentViews = new Map(); // POC-only hidden browser-use views
 let activeTabId = null;
@@ -101,6 +109,7 @@ function syncActiveView() {
 
   // If no view should be shown (internal URL or no active tab), we're done
   if (!shouldShowView) {
+    resetVisualCursor();
     console.log('[SYNC] No view to show. All views detached. React UI fully visible.');
     return;
   }
@@ -129,11 +138,14 @@ function syncActiveView() {
   const maxWidth = Math.max(0, winBounds.width - clampedX);
   const maxHeight = Math.max(0, winBounds.height - clampedY);
 
+  const widthToUse = currentBounds.width > 0 ? currentBounds.width : maxWidth;
+  const heightToUse = currentBounds.height > 0 ? currentBounds.height : maxHeight;
+
   const finalBounds = {
     x: clampedX,
     y: clampedY,
-    width: Math.min(Math.max(0, Math.round(currentBounds.width || 0)), maxWidth),
-    height: Math.min(Math.max(0, Math.round(currentBounds.height || 0)), maxHeight),
+    width: Math.min(Math.max(0, Math.round(widthToUse)), maxWidth),
+    height: Math.min(Math.max(0, Math.round(heightToUse)), maxHeight),
   };
 
   console.log('[SYNC] Setting clamped view bounds:', JSON.stringify(finalBounds));
@@ -143,6 +155,12 @@ function syncActiveView() {
   if (typeof view.setVisible === 'function') {
     view.setVisible(true);
     console.log('[SYNC] Set view visible');
+  }
+
+  // Ensure active view receives focus
+  if (view.webContents && typeof view.webContents.focus === 'function') {
+    view.webContents.focus();
+    console.log('[SYNC] Focused active view');
   }
 
   console.log('[SYNC] syncActiveView completed');
@@ -165,6 +183,14 @@ function attachTabListeners(tabId, view) {
       title: normalizeTitle(url, webContents.getTitle()),
       ...getNavState(webContents),
     });
+
+    if (!activeTabId && views.has(tabId)) {
+      activeTabId = tabId;
+    }
+    if (tabId === activeTabId && url !== 'comex://launchpad') {
+      currentBounds.isHidden = false;
+      syncActiveView();
+    }
   });
 
   webContents.on('did-fail-load', (_event, _code, _desc, _url, isMainFrame) => {
@@ -276,6 +302,71 @@ function createWindow() {
   } else {
     mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
   }
+
+  if (isVisualCursorEnabled) {
+    createCursorWindow();
+  }
+}
+
+function createCursorWindow() {
+  if (!isVisualCursorEnabled || !mainWindow || mainWindow.isDestroyed()) return;
+  if (cursorWindow && !cursorWindow.isDestroyed()) return;
+
+  const winBounds = mainWindow.getContentBounds();
+  const width = winBounds.width || 1400;
+  const height = winBounds.height || 900;
+  console.log('[CURSOR] Creating cursorWindow with initial bounds:', { x: winBounds.x, y: winBounds.y, width, height });
+
+  cursorWindow = new BrowserWindow({
+    width: width,
+    height: height,
+    x: winBounds.x,
+    y: winBounds.y,
+    frame: false,
+    transparent: true,
+    hasShadow: false,
+    focusable: false,
+    show: true,
+    webPreferences: {
+      preload: path.join(__dirname, 'cursor_preload.cjs'),
+      contextIsolation: true,
+      nodeIntegration: false,
+      sandbox: false,
+      backgroundThrottling: false,
+    },
+  });
+
+  cursorWindow.setIgnoreMouseEvents(true, { forward: true });
+  cursorWindow.setAlwaysOnTop(true, 'screen-saver');
+  cursorWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+  cursorWindow.loadFile(path.join(__dirname, 'cursor_overlay.html'));
+  cursorWindow.showInactive();
+
+  cursorWindow.webContents.on('did-finish-load', () => {
+    console.log('[CURSOR] Overlay HTML loaded successfully!');
+  });
+  cursorWindow.webContents.on('did-fail-load', (_e, code, desc) => {
+    console.error('[CURSOR] Overlay HTML failed to load:', code, desc);
+  });
+
+  const syncCursorBounds = () => {
+    if (!cursorWindow || cursorWindow.isDestroyed() || !mainWindow || mainWindow.isDestroyed()) return;
+    cursorWindow.setBounds(mainWindow.getContentBounds());
+  };
+
+  mainWindow.on('resize', syncCursorBounds);
+  mainWindow.on('move', syncCursorBounds);
+  mainWindow.once('ready-to-show', syncCursorBounds);
+  mainWindow.on('minimize', () => {
+    resetVisualCursor();
+  });
+  mainWindow.on('closed', () => {
+    if (cursorWindow && !cursorWindow.isDestroyed()) {
+      cursorWindow.close();
+      cursorWindow = null;
+    }
+  });
+  // On focus: cursor remains hidden until the next agent click (no stale restore)
 }
 
 app.whenReady().then(() => {
@@ -392,4 +483,43 @@ ipcMain.on('tabs-set-bounds', (_event, bounds) => {
   console.log('[MAIN] tabs-set-bounds received:', bounds);
   currentBounds = bounds || currentBounds;
   syncActiveView();
+});
+
+ipcMain.on('cursor-animate', (_event, data) => {
+  console.log(`[CURSOR] Received cursor event x=${data?.x} y=${data?.y} tabId=${data?.tabId}`);
+  if (!isVisualCursorEnabled) {
+    console.log('[CURSOR] Ignored: isVisualCursorEnabled is false');
+    return;
+  }
+  if (!cursorWindow || cursorWindow.isDestroyed()) {
+    console.log('[CURSOR] cursorWindow is null/destroyed, lazily initializing...');
+    createCursorWindow();
+  }
+  if (!cursorWindow || cursorWindow.isDestroyed()) {
+    console.error('[CURSOR] Could not create cursorWindow!');
+    return;
+  }
+
+  // Background-tab filtering: only animate if event is for the active foreground tab
+  const isTargetActive = !data?.tabId || data.tabId === 'active_tab' || data.tabId === activeTabId;
+  if (!isTargetActive) {
+    console.log('[CURSOR] Dropped background tab event:', data.tabId, 'vs active:', activeTabId);
+    return;
+  }
+  // Coordinate translation: currentBounds.x + target_x, currentBounds.y + target_y
+  const viewX = Math.round(currentBounds.x || 0);
+  const viewY = Math.round(currentBounds.y || 0);
+  const targetX = Math.round(viewX + (data?.x || 0));
+  const targetY = Math.round(viewY + (data?.y || 0));
+
+  console.log('[CURSOR] Dispatching to cursorWindow at translated:', { x: targetX, y: targetY });
+  cursorWindow.webContents.send('cursor-animate', {
+    x: targetX,
+    y: targetY,
+    action: data?.action || 'click',
+  });
+});
+
+ipcMain.on('cursor-reset', () => {
+  resetVisualCursor();
 });

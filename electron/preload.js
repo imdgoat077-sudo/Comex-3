@@ -19,5 +19,9 @@ contextBridge.exposeInMainWorld('nexusNative', {
       ipcRenderer.removeAllListeners('tab-update');
       ipcRenderer.on('tab-update', (event, tabId, data) => callback(tabId, data));
     }
+  },
+  cursor: {
+    animate: (data) => ipcRenderer.send('cursor-animate', data),
+    reset: () => ipcRenderer.send('cursor-reset'),
   }
 });
